@@ -54,11 +54,9 @@ const playerSelection = playerOption();
 console.log(playerSelection);
 console.log(playRound(playerSelection, computerSelection));
 
-// function game() {
-//   for (let i = 0; i < 5; i++) {
-//     if (i < 5) {
-//       return playerOption();
-//     }
-//   }
-// }
-// game();
+function game() {
+  for (let i = 0; i < 5; i++) {
+    return playRound();
+  }
+}
+game();
