@@ -12,10 +12,6 @@ function computerPlay() {
   const answ = randomOutput[computer];
   return answ;
 }
-// computerSelection = computerPlay();
-// console.log(computerSelection);
-// playerSelection = playerOption();
-// console.log(playerSelection);
 
 game();
 function game() {
