@@ -1,10 +1,19 @@
 "use script";
 console.log("hello world");
 
-let computerScore;
-let playerScore;
-let computerSelection;
-let playerSelection;
+let computerScore = 0;
+let playerScore = 0;
+let resultPara = document.querySelector(".resultPara");
+const btns = document.querySelectorAll("button");
+const result = document.querySelector(".result");
+const resultBox = document.querySelector("click");
+const rockBtn = document.querySelector(".rockBtn");
+const paperBtn = document.querySelector(".paperBtn");
+const scissorsBtn = document.querySelector(".scissorsBtn");
+const again = document.querySelector(".again");
+
+again.addEventListener("click", reset);
+//using mth.random to get a random pick from computer
 function computerPlay() {
   const randomOutput = ["rock", "paper", "scissors"];
 
@@ -12,78 +21,58 @@ function computerPlay() {
   const answ = randomOutput[computer];
   return answ;
 }
+rockBtn.addEventListener("click", () => handleClick("rock"));
+paperBtn.addEventListener("click", () => handleClick("paper"));
+scissorsBtn.addEventListener("click", () => handleClick("scissors"));
 
-game();
-function game() {
-  computerScore = 0;
-  playerScore = 0;
-  for (let i = 0; i < 5; i++) {
-    computerSelection = computerPlay();
-    console.log(computerSelection);
+computerSelection = computerPlay();
+if (isGameOver()) {
+  GameOver();
+}
+function handleClick(playerSelection) {
+  playRound(playerSelection, computerSelection);
 
-    playerSelection = playerOption();
-    console.log(playerSelection);
-
-    console.log(`computer: ${computerSelection}
-    you: ${playerSelection}`);
-    playRound(playerSelection, computerSelection);
-  }
-
-  console.log(declareWinner());
-  function declareWinner() {
-    if (computerScore === playerScore) {
-      console.log(`${playerScore} - ${computerScore} \nTie Game`);
-      return `${playerScore} - ${computerScore} \nTie Game`;
-    } else if (playerScore > computerScore) {
-      console.log(`${playerScore} - ${computerScore} \nYou Win`);
-      return `${playerScore} - ${computerScore} \nYou win`;
-    } else {
-      console.log(
-        `${playerScore} - ${computerScore} \nYou Lost, Better luck Next time!`
-      );
-      return `${playerScore} - ${computerScore} \nYou Lost, Better luck Next time!`;
-    }
+  if (isGameOver()) {
+    GameOver();
   }
 }
-
-function playerOption() {
-  choices = prompt("Rock,paper or scissors");
-  validateOption();
-  // console.log(choices);
-  return choices;
+function isGameOver() {
+  return playerScore === 5 || computerScore === 5;
+}
+function GameOver() {
+  alert(`GAME OVER \n Computer: ${computerScore}---PLayer: ${playerScore} `);
+  declareWinner();
+  appear();
 }
 
-function validateOption() {
-  if (
-    choices.toLowerCase() == "rock" ||
-    choices.toLowerCase() == "paper" ||
-    choices.toLowerCase() == "scissors"
-  ) {
-    return choices;
-  } else alert("input a value");
-  playerOption();
+function declareWinner() {
+  if (playerScore > computerScore) {
+    alert("YAY YOU WON");
+  } else alert("SORRY YOU LOST, TRY AGAIN");
 }
 
 function playRound(playerSelection, computerSelection) {
-  if (computerSelection.toLowerCase() === playerSelection.toLowerCase()) {
-    console.log("tie game");
-    return console.log(
-      "computer Score:" + computerScore + "\nYour Score:" + playerScore
-    );
+  computerSelection = computerPlay();
+
+  if (computerSelection === playerSelection) {
+    resultPara.textContent = `tie game [computer: ${+computerScore} --- You: ${+playerScore}]`;
   } else if (
-    (computerSelection.toLowerCase() === "rock" &&
-      playerSelection.toLowerCase() === "scissors") ||
-    (computerSelection.toLowerCase() === "scissors" &&
-      playerSelection.toLowerCase() === "paper") ||
-    (computerSelection.toLowerCase() === "paper" &&
-      playerSelection.toLowerCase() === "rock")
+    (computerSelection === "rock" && playerSelection === "scissors") ||
+    (computerSelection === "scissors" && playerSelection === "paper") ||
+    (computerSelection === "paper" && playerSelection === "rock")
   ) {
-    console.log(`you lost! ${computerSelection} beats ${playerSelection}`);
-    return console.log(
-      "computer Score:" + ++computerScore + "\nYour Score:" + playerScore
-    );
-  } else console.log(`you win! ${playerSelection} beats ${computerSelection}`);
-  return console.log(
-    "computer Score:" + computerScore + "\nYour Score:" + ++playerScore
-  );
+    resultPara.textContent = `you lost! ${computerSelection} beats ${playerSelection}
+    [computer: ${++computerScore} --- You: ${playerScore}]`;
+  } else
+    resultPara.textContent = `you win! ${playerSelection} beats ${computerSelection} [computer: ${computerScore} ---You: ${++playerScore}]`;
+}
+function appear() {
+  again.classList.remove("again");
+}
+
+function reset() {
+  playerScore = 0;
+  computerScore = 0;
+  resultPara.textContent = "RESULT BOARD";
+  again.classList.add("again");
 }
