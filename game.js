@@ -40,16 +40,24 @@ function isGameOver() {
   return playerScore === 5 || computerScore === 5;
 }
 function GameOver() {
-  alert(`GAME OVER \n Computer: ${computerScore}---PLayer: ${playerScore} `);
-  declareWinner();
-  appear();
+  if (playerScore > computerScore) {
+    alert(
+      `YAY YOU WON \nGAME OVER \n Computer: ${computerScore}---PLayer: ${playerScore} `
+    );
+  } else
+    alert(
+      `SORRY YOU LOST \nGAME OVER \n Computer: ${computerScore}---PLayer: ${playerScore} `
+    );
+  reset();
 }
 
-function declareWinner() {
-  if (playerScore > computerScore) {
-    alert("YAY YOU WON");
-  } else alert("SORRY YOU LOST, TRY AGAIN");
-}
+// function declareWinner() {
+//   if (playerScore > computerScore) {
+//     alert("YAY YOU WON");
+//     reset();
+//   } else alert("SORRY YOU LOST, TRY AGAIN");
+//   reset();
+// }
 
 function playRound(playerSelection, computerSelection) {
   computerSelection = computerPlay();
@@ -66,9 +74,9 @@ function playRound(playerSelection, computerSelection) {
   } else
     resultPara.textContent = `you win! ${playerSelection} beats ${computerSelection} [computer: ${computerScore} ---You: ${++playerScore}]`;
 }
-function appear() {
-  again.classList.remove("again");
-}
+// function appear() {
+//   again.classList.remove("again");
+// }
 
 function reset() {
   playerScore = 0;
